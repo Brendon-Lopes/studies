@@ -17,11 +17,33 @@ Promise.resolve().then(() => {
 
 process.nextTick(() => {
   console.log('4. Next Tick');
+
+  Promise.resolve().then(() => {
+    console.log('4.1 Promise from Next Tick');
+  });
 });
 
 fs.readFile('./file.txt', 'utf-8', (err, data) => {
+  console.log('6.1 I/O Callback');
+
+  setTimeout(() => {
+    console.log('6.5 Timeout from I/O');
+  }, 0);
+
   setImmediate(() => {
-    console.log('6. Immediate from I/O');
+    console.log('6.5 Immediate from I/O');
+  });
+
+  Promise.resolve().then(() => {
+    console.log('6.3 Promise from I/O');
+  });
+
+  process.nextTick(() => {
+    console.log('6.2 Next Tick from I/O');
+  });
+
+  Promise.resolve().then(() => {
+    console.log('6.4 Promise 2 from I/O');
   });
 });
 
