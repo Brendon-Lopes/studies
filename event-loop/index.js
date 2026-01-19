@@ -57,11 +57,3 @@ Promise.resolve().then(() => {
 });
 
 console.log('2. End');
-
-/**
- * Curiosities:
- * - The behaviour of microtasks and nextTick varies between CommonJS and ES Modules.
- *  - In CommonJS, process.nextTick callbacks are executed before Promise microtasks.
- *  - In ES Modules, Promise microtasks are executed before process.nextTick callbacks.
- *  - This code is written as an ES Module, so Promise microtasks run before nextTick.
- */
