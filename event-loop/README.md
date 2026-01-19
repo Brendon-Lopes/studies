@@ -11,7 +11,7 @@
 
 ### Microtasks
 
-- Microtasks (e.g., Promises, process.nextTick) are executed at the start and immediately after each macrotask phase, before moving to the next phase.
+- Microtasks (e.g., Promises, process.nextTick) are executed at the start and immediately after each callback.
 - The microtask queue is processed until empty. (i.e., if a microtask enqueues another microtask, it will be executed in the same cycle.)
 
 ### Curiosities
