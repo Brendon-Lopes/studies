@@ -27,7 +27,7 @@ fs.readFile('./file.txt', 'utf-8', (err, data) => {
   console.log('6.1 I/O Callback');
 
   setTimeout(() => {
-    console.log('6.5 Timeout from I/O');
+    console.log('6.6 Timeout from I/O');
   }, 0);
 
   setImmediate(() => {
