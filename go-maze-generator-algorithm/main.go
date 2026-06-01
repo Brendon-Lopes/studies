@@ -10,6 +10,7 @@ type Maze struct {
 	width  int
 	height int
 	grid   [][]string
+	rng    *rand.Rand
 }
 
 func NewMaze(w, h int) *Maze {
@@ -23,10 +24,16 @@ func NewMaze(w, h int) *Maze {
 		}
 	}
 
+	// creates a seed (source) with the source being the current time in nanoseconds
+	s := rand.NewSource(time.Now().UnixNano())
+	// creates instance of rand with the designated seed
+	rng := rand.New(s)
+
 	return &Maze{
 		width:  w,
 		height: h,
 		grid:   grid,
+		rng:    rng,
 	}
 }
 
@@ -40,13 +47,8 @@ func (m *Maze) Carve(x, y int) {
 		{-2, 0}, // left
 	}
 
-	// creates a seed (source) with the source being the current time in nanoseconds
-	s := rand.NewSource(time.Now().UnixNano())
-	// creates instance of rand with the designated seed
-	r := rand.New(s)
-
 	// shuffles with Fisher-Yarnes algorithm
-	r.Shuffle(len(dirs), func(i, j int) {
+	m.rng.Shuffle(len(dirs), func(i, j int) {
 		dirs[i], dirs[j] = dirs[j], dirs[i]
 	})
 
@@ -73,15 +75,22 @@ func (m *Maze) Print() {
 }
 
 func main() {
-	height := 31
-	width := 31
+	height := 33
+	width := 33
 
 	maze := NewMaze(height, width)
 
-	maze.Carve(1, 1)
+	yCenter := height / 2
 
-	maze.grid[0][1] = "  "
-	maze.grid[height-1][width-2] = "  "
+	if yCenter%2 == 0 {
+		yCenter++
+	}
+
+	maze.Carve(1, yCenter)
+	fmt.Println(yCenter)
+
+	maze.grid[yCenter][0] = "  "
+	maze.grid[yCenter][width-1] = "  "
 
 	maze.Print()
 }
